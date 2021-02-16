@@ -1,15 +1,19 @@
-const addForm = document.querySelector("form");
-const list = document.querySelector("ul");
+"use strict"
 
-addForm.addEventListener("submit", e => {
-    e.preventDefault();
-    const todo = addForm.add.value.trim();
-    if (todo.length) {
-        list.innerHTML += `<li class="todo">${todo}</li>`
-        addForm.reset();
-    }
+const form = document.querySelector('form');
+
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const entry = form.enter.value.trim();
+    const query = "https://tastedive.com/api/similar?q=%2C+" + entry;
+    getRec(query).then(data => console.log(data));
+
 });
 
-list.addEventListener("click", e => {
-    if (e.target.classList.contains("todo")) e.target.remove();
-});
+const getRec = async (query) => {
+    console.log(query);
+    const response = await fetch(query);
+    const data = await response.json();
+    return data;
+};
+
